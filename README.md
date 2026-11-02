@@ -5,9 +5,8 @@
 
 > 이 프로젝트는 AI(Claude)를 활용해 구현했습니다. 요구사항 정의, 플랫폼 선택, UI 디자인(Figma), 배포와 운영은 직접 진행했습니다.
 
-<!-- 스크린샷: docs/screenshot-list.png, docs/screenshot-borrow.png 를 추가한 뒤 아래 주석을 풀어 주세요 -->
-<!-- ![대여 현황 화면](docs/screenshot-list.png) -->
-<!-- ![대여 신청 화면](docs/screenshot-borrow.png) -->
+![대여 현황 화면](docs/screenshot-list01.png)
+![대여 신청 화면](docs/screenshot-borrow01.png)
 
 ## 해결하려는 문제
 
