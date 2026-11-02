@@ -5,7 +5,7 @@
 
 > 이 프로젝트는 AI(Claude)를 활용해 구현했습니다. 요구사항 정의, 플랫폼 선택, UI 디자인(Figma), 배포와 운영은 직접 진행했습니다.
 
-![대여 현황 화면](screenshot-list01.png),(screenshot-list02.png)
+![대여 현황 화면](screenshot-list01.png)(screenshot-list02.png)
 ![대여 신청 화면](screenshot-borrow01.png)
 
 ## 해결하려는 문제
