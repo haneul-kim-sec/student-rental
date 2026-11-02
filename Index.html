@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root {
+  --bg: #f4f5f0; --fg: #17211f; --line: #dfe2d8; --line-2: #d9ddd3; --card-line: #dfe2d9; --soft: #eef0ea;
+  --muted: #66716d; --muted-2: #7a8581; --lime: #d9ff63; --green: #49a768; --bar-on: #83b06f; --bar-off: #e2e5de;
+  --sans: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+button, a { -webkit-tap-highlight-color: transparent; font-family: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+svg { display: block; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 768px) { .wrap { padding-left: 32px; padding-right: 32px; } }
+.mono { font-family: var(--mono); }
+
+/* header */
+header.top { border-bottom: 1px solid var(--line); background: rgb(248 249 245 / .9); }
+header.top .wrap { display: flex; height: 72px; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+.brand .mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 13px; background: var(--fg); color: var(--lime); box-shadow: 0 1px 2px rgb(0 0 0 / .08); }
+.brand .sub { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #6e7975; }
+.brand .name { display: block; font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
+.live { display: none; align-items: center; gap: 8px; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 12px; font-size: 12px; font-weight: 500; color: #65706c; }
+.live i { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+@media (min-width: 640px) { .live { display: flex; } }
+
+/* hero */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+.hero-grid { position: absolute; inset: 0; opacity: .5;
+  background-image: linear-gradient(to right, rgba(73,90,83,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(73,90,83,.06) 1px, transparent 1px);
+  background-size: 44px 44px; -webkit-mask-image: linear-gradient(to right, #000, transparent 85%); mask-image: linear-gradient(to right, #000, transparent 85%); }
+.hero .wrap { position: relative; display: grid; gap: 40px; padding-top: 48px; padding-bottom: 48px; }
+@media (min-width: 768px) { .hero .wrap { padding-top: 64px; padding-bottom: 64px; } }
+@media (min-width: 1024px) { .hero .wrap { grid-template-columns: 1fr 430px; align-items: end; } }
+.eyebrow { margin: 0 0 16px; display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .12em; color: #52705f; text-transform: uppercase; }
+.eyebrow i { width: 24px; height: 1px; background: #52705f; }
+h1 { margin: 0; max-width: 680px; font-size: 38px; line-height: 1.13; font-weight: 700; letter-spacing: -.045em; }
+@media (min-width: 768px) { h1 { font-size: 54px; } }
+.hl { position: relative; display: inline-block; z-index: 0; }
+.hl::after { content: ""; position: absolute; left: 0; right: -8px; bottom: 0; height: 12px; background: var(--lime); transform: rotate(-1deg); z-index: -1; }
+.hero p.lead { margin: 24px 0 0; max-width: 570px; font-size: 15px; line-height: 28px; color: var(--muted); }
+@media (min-width: 768px) { .hero p.lead { font-size: 16px; } }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); overflow: hidden; border-radius: 16px; border: 1px solid var(--line-2); background: #fff; box-shadow: 0 12px 40px rgba(31,43,39,.07); }
+.stats > div { padding: 20px 16px; text-align: center; }
+.stats > div + div { border-left: 1px solid #e5e8e0; }
+.stats span { display: block; font-size: 11px; font-weight: 600; color: #7c8682; }
+.stats strong { margin-top: 4px; display: block; font-family: var(--mono); font-size: 26px; letter-spacing: -.04em; font-weight: 600; }
+.stats strong b { font: inherit; }
+.stats small { margin-left: 2px; font-family: var(--sans); font-size: 12px; font-weight: 600; color: #64706b; }
+@media (min-width: 768px) { .stats span { font-size: 12px; } .stats strong { font-size: 30px; } }
+
+/* list section */
+.items { padding-top: 40px; padding-bottom: 40px; }
+@media (min-width: 768px) { .items { padding-top: 56px; padding-bottom: 56px; } }
+.items-head { margin-bottom: 28px; display: flex; flex-direction: column; gap: 20px; }
+@media (min-width: 768px) { .items-head { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+.items-head .k { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--muted-2); text-transform: uppercase; }
+.items-head h2 { margin: 4px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -.035em; }
+.tools { display: flex; flex-direction: column; gap: 12px; }
+@media (min-width: 640px) { .tools { flex-direction: row; align-items: center; } }
+.search { position: relative; display: block; }
+.search svg { position: absolute; top: 50%; left: 16px; transform: translateY(-50%); color: var(--muted-2); pointer-events: none; }
+.search:focus-within svg { color: var(--fg); }
+.search input { height: 44px; width: 100%; border-radius: 12px; border: 1px solid var(--line-2); background: #fff; padding: 0 16px 0 44px; font: inherit; font-size: 14px; color: var(--fg); outline: none; transition: border-color .15s, box-shadow .15s; }
+.search input::placeholder { color: #9ba39f; }
+.search input:focus { border-color: #52665e; box-shadow: 0 0 0 3px rgba(82,102,94,.1); }
+@media (min-width: 640px) { .search input { width: 230px; } }
+.refresh { display: flex; height: 44px; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; border: 1px solid var(--line-2); background: #fff; padding: 0 16px; font-size: 14px; font-weight: 600; color: var(--fg); cursor: pointer; transition: background .15s, border-color .15s; }
+.refresh:hover { border-color: #b7beb7; background: #fafbf8; }
+.refresh:disabled { opacity: .6; cursor: default; }
+.refresh.spin svg { animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.chips { margin-bottom: 24px; display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.chip { flex-shrink: 0; border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 600; border: 1px solid var(--line-2); background: transparent; color: #65706c; cursor: pointer; transition: background .15s; }
+.chip:hover { background: #fff; }
+.chip[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / .1); }
+
+.grid { display: grid; gap: 16px; }
+@media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+.card { display: flex; flex-direction: column; min-height: 306px; border-radius: 20px; border: 1px solid var(--card-line); background: #fff; padding: 20px;
+  animation: card-in .5s cubic-bezier(.22,1,.36,1) both; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+@media (min-width: 768px) { .card { padding: 24px; } }
+.card:hover { transform: translateY(-3px); border-color: #c9cec4; box-shadow: 0 16px 35px rgba(34,47,42,.08); }
+@keyframes card-in { from { opacity: 0; transform: translateY(12px); } }
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 24px; }
+.cat { border-radius: 6px; background: var(--soft); padding: 4px 10px; font-size: 11px; font-weight: 700; color: #69746f; }
+.status { display: flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 10px; font-size: 11px; font-weight: 700; margin-left: auto; white-space: nowrap; }
+.status i { width: 6px; height: 6px; border-radius: 50%; }
+.status.ok { background: #e7f4ea; color: #3b7950; } .status.ok i { background: var(--green); }
+.status.low { background: #fff2d8; color: #996716; } .status.low i { background: #d2942f; }
+.status.none { background: #f5e9e5; color: #a4523f; } .status.none i { background: #bd6049; }
+.card h3 { margin: 20px 0 0; font-size: 20px; font-weight: 700; letter-spacing: -.025em; }
+.card .note { margin: 6px 0 0; font-size: 13px; line-height: 20px; color: var(--muted-2); }
+.stock { margin-top: 28px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.stock .k { font-size: 11px; font-weight: 600; color: #7c8682; }
+.stock p { margin: 2px 0 0; display: flex; align-items: baseline; gap: 4px; }
+.stock strong { font-family: var(--mono); font-size: 38px; line-height: 1; letter-spacing: -.06em; font-weight: 600; }
+.stock .of { font-size: 12px; font-weight: 600; color: #78827e; }
+.bars { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; max-width: 60%; }
+.bars i { height: 28px; width: 6px; border-radius: 999px; background: var(--bar-off); }
+.bars i.on { background: var(--bar-on); }
+.card-foot { margin-top: auto; padding-top: 16px; border-top: 1px solid #eceee8; display: flex; align-items: center; justify-content: space-between; }
+.card-foot .days { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: #6d7873; }
+.spacer { height: 24px; }
+.go { display: flex; align-items: center; gap: 4px; border: 0; background: none; padding: 0; font-size: 14px; font-weight: 700; color: #26342f; cursor: pointer; transition: gap .18s; }
+.card:hover .go:not(:disabled) { gap: 8px; }
+.go:disabled { cursor: not-allowed; color: #aeb5b1; }
+.empty { display: grid; min-height: 260px; place-items: center; border-radius: 20px; border: 1px dashed #cfd4ca; background: rgb(255 255 255 / .5); text-align: center; }
+.empty svg { margin: 0 auto; color: #8b9591; }
+.empty b { display: block; margin-top: 12px; }
+.empty span { display: block; margin-top: 4px; font-size: 14px; color: #79837f; }
+.notice { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; border-radius: 16px; background: #e9ece4; padding: 16px 20px; font-size: 14px; color: #65706c; }
+@media (min-width: 640px) { .notice { flex-direction: row; align-items: center; justify-content: space-between; } }
+.notice p { margin: 0; display: flex; align-items: flex-start; gap: 8px; }
+.notice p svg { margin-top: 2px; flex-shrink: 0; }
+.notice button { align-self: flex-start; border: 0; background: none; padding: 0; font-size: 14px; font-weight: 700; color: #2c3a35; text-decoration: underline; text-decoration-color: #9ba69f; text-underline-offset: 4px; cursor: pointer; }
+@media (min-width: 640px) { .notice button { align-self: auto; } }
+footer { border-top: 1px solid var(--line); background: var(--soft); }
+footer .wrap { display: flex; flex-direction: column; gap: 8px; padding-top: 32px; padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px)); font-size: 12px; color: #78827e; }
+footer p { margin: 0; }
+@media (min-width: 640px) { footer .wrap { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+/* modal */
+.backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: end center; background: rgb(16 22 19 / .55); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); animation: fade .16s ease-out both; }
+@media (min-width: 640px) { .backdrop { place-items: center; padding: 20px; } }
+@keyframes fade { from { opacity: 0; } }
+.panel { width: 100%; max-height: 92vh; overflow-y: auto; background: #fff; border-radius: 28px 28px 0 0; padding: 24px 24px calc(24px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 25px 50px -12px rgb(0 0 0 / .25); animation: modal-in .26s cubic-bezier(.22,1,.36,1) both; }
+@media (min-width: 640px) { .panel { max-width: 460px; border-radius: 24px; padding: 28px; } }
+@keyframes modal-in { from { opacity: 0; transform: translateY(16px) scale(.985); } }
+.panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.panel-head .k { font-size: 11px; font-weight: 700; letter-spacing: .09em; color: #6e7975; text-transform: uppercase; }
+.panel-head h2 { margin: 4px 0 0; font-size: 24px; font-weight: 700; letter-spacing: -.035em; }
+.x { display: grid; width: 36px; height: 36px; flex-shrink: 0; place-items: center; border-radius: 50%; border: 0; background: #f0f2ed; color: #58635f; cursor: pointer; transition: background .15s; }
+.x:hover { background: #e5e8e1; }
+.panel .desc { margin: 12px 0 0; font-size: 14px; line-height: 24px; color: #727d78; }
+.duebox { margin-top: 20px; border-radius: 16px; background: #eff6e8; padding: 16px; }
+.duebox span { font-size: 11px; font-weight: 700; color: #708268; }
+.duebox p { margin: 2px 0 0; font-size: 18px; font-weight: 700; color: #3f633d; }
+.fields { margin-top: 24px; display: grid; gap: 16px; }
+.fields label { display: grid; gap: 8px; font-size: 13px; font-weight: 700; }
+.fields input, .fields select { height: 48px; border-radius: 12px; border: 1px solid var(--line-2); background: #fafbf8; padding: 0 16px; font: inherit; font-size: 14px; font-weight: 400; color: var(--fg); outline: none; transition: border-color .15s, box-shadow .15s; }
+.fields input.mono { font-family: var(--mono); }
+.fields input::placeholder { color: #a2aaa6; font-family: var(--sans); }
+.fields input:focus, .fields select:focus { border-color: #52665e; box-shadow: 0 0 0 3px rgba(82,102,94,.1); }
+.consent { margin-top: 20px; display: flex; align-items: flex-start; gap: 12px; font-size: 12px; line-height: 20px; color: #6e7975; cursor: pointer; }
+.consent input { margin: 2px 0 0; width: 16px; height: 16px; flex-shrink: 0; accent-color: #25332e; }
+.err { margin: 16px 0 0; border-radius: 12px; background: #f5e9e5; color: #a4523f; padding: 10px 14px; font-size: 13px; font-weight: 600; }
+.btn-row { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.btn { height: 48px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background .15s; }
+.btn.ghost { border: 1px solid var(--line-2); background: #fff; color: #59645f; }
+.btn.ghost:hover { background: #f6f7f3; }
+.btn.dark { border: 0; background: var(--fg); color: #fff; }
+.btn.dark:hover { background: #2a3632; }
+.btn:disabled { opacity: .6; cursor: default; }
+.done { text-align: center; }
+.done .ic { margin: 0 auto; display: grid; width: 56px; height: 56px; place-items: center; border-radius: 50%; background: #e8f5df; color: #477742; }
+.done .ic.late { background: #fff2d8; color: #996716; }
+.done h2 { margin: 20px 0 0; font-size: 24px; font-weight: 700; letter-spacing: -.035em; }
+.done p { margin: 8px 0 0; font-size: 14px; line-height: 24px; color: #6e7975; }
+.done p strong { color: #26342f; }
+.done .btn { margin-top: 24px; width: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="학생회 물품 대여 홈">
+      <span class="mark" data-icon="bag" data-size="22"></span>
+      <span><span class="sub">스마트보안학과 학생회</span><span class="name">빌려드림</span></span>
+    </a>
+    <div class="live"><i></i>대여 서비스 운영 중</div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="wrap">
+      <div>
+        <p class="eyebrow"><i></i>Student rental service</p>
+        <h1>필요한 순간,<br><span class="hl">부담 없이 빌려 쓰세요.</span></h1>
+        <p class="lead">학과 생활에 필요한 물품을 간편하게 대여하고 반납할 수 있어요. 재고를 확인하고 원하는 물품을 선택해 주세요.</p>
+      </div>
+      <div class="stats">
+        <div><span>물품 종류</span><strong><b id="s-kind">–</b><small>종</small></strong></div>
+        <div><span>대여 중</span><strong><b id="s-out">–</b><small>개</small></strong></div>
+        <div><span>대여 가능</span><strong><b id="s-left">–</b><small>개</small></strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap items">
+    <div class="items-head">
+      <div><p class="k">Available items</p><h2>대여 물품</h2></div>
+      <div class="tools">
+        <label class="search"><span data-icon="search" data-size="18"></span><input id="q" placeholder="물품을 검색해 보세요" aria-label="물품 검색"></label>
+        <button class="refresh" id="refresh" type="button"><span data-icon="refresh" data-size="17"></span><span id="updated">불러오는 중</span></button>
+      </div>
+    </div>
+    <div class="chips" role="group" aria-label="필터">
+      <button class="chip" data-f="all" aria-pressed="true" type="button">전체</button>
+      <button class="chip" data-f="available" aria-pressed="false" type="button">대여 가능</button>
+      <button class="chip" data-f="unavailable" aria-pressed="false" type="button">대여 중</button>
+    </div>
+    <div id="list"></div>
+    <div class="notice">
+      <p><span data-icon="info" data-size="17"></span>대여한 물품은 기한 내 학생회실로 반납해 주세요.</p>
+      <button type="button" id="go-return">반납하러 가기</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><p>스마트보안학과 학생회 물품 대여 서비스</p><p>문의는 학생회 공식 채널을 이용해 주세요.</p></div>
+</footer>
+<div id="modal-root"></div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const ICONS = {
+  bag: '<path d="M6 8.5h12l1 11H5l1-11Z"/><path d="M9 9V6.5a3 3 0 0 1 6 0V9"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/>',
+  refresh: '<path d="M19 8a7.5 7.5 0 0 0-13-2L4 8"/><path d="M4 4v4h4M5 16a7.5 7.5 0 0 0 13 2l2-2"/><path d="M20 20v-4h-4"/>',
+  clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  arrow: '<path d="m9 6 6 6-6 6"/>',
+  close: '<path d="m7 7 10 10M17 7 7 17"/>',
+  check: '<path d="m5.5 12.5 4 4 9-9"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/>',
+};
+const icon = (n, s = 20) => `<svg aria-hidden="true" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">${ICONS[n]}</svg>`;
+document.querySelectorAll("[data-icon]").forEach((el) => { el.outerHTML = icon(el.dataset.icon, Number(el.dataset.size) || 20); });
+
+const WD = ["일", "월", "화", "수", "목", "금", "토"];
+const fmtDate = (d) => `${d.getMonth() + 1}월 ${d.getDate()}일 (${WD[d.getDay()]})`;
+const dueFrom = (days) => { const d = new Date(); d.setDate(d.getDate() + Number(days || 0)); return d; };
+
+let ITEMS = [], FILTER = "all", QUERY = "", loadedAt = null;
+
+function call(fn, ...args) {
+  return new Promise((res, rej) => google.script.run.withSuccessHandler(res).withFailureHandler(rej)[fn](...args));
+}
+const errMsg = (e) => (e && e.message ? e.message.replace(/^Exception:\s*/, "").replace(/^Error:\s*/, "") : "처리하지 못했어요. 잠시 후 다시 시도해 주세요.");
+
+function updatedLabel() {
+  if (!loadedAt) return "불러오는 중";
+  const m = Math.floor((Date.now() - loadedAt) / 60000);
+  return m < 1 ? "방금 전" : `${m}분 전`;
+}
+async function load(showSpin) {
+  const btn = $("#refresh");
+  btn.disabled = true; if (showSpin) { btn.classList.add("spin"); $("#updated").textContent = "확인 중"; }
+  try {
+    ITEMS = await call("getStatus");
+    loadedAt = Date.now();
+    render();
+  } catch (e) {
+    $("#list").innerHTML = `<div class="empty"><div>${icon("info", 28)}<b>목록을 불러오지 못했어요</b><span>${esc(errMsg(e))}</span></div></div>`;
+  } finally {
+    btn.disabled = false; btn.classList.remove("spin"); $("#updated").textContent = updatedLabel();
+  }
+}
+
+function render() {
+  let out = 0, left = 0;
+  ITEMS.forEach((it) => { out += it.lent; left += it.remaining; });
+  $("#s-kind").textContent = ITEMS.length; $("#s-out").textContent = out; $("#s-left").textContent = left;
+
+  const kw = QUERY.trim().toLowerCase();
+  const vis = ITEMS.filter((it) => {
+    const q = !kw || it.name.toLowerCase().includes(kw) || String(it.category || "").toLowerCase().includes(kw);
+    const f = FILTER === "all" || (FILTER === "available" ? it.remaining > 0 : it.remaining === 0);
+    return q && f;
+  });
+  if (!vis.length) {
+    $("#list").innerHTML = `<div class="empty"><div>${icon("search", 28)}<b>${ITEMS.length ? "조건에 맞는 물품이 없어요" : "아직 등록된 물품이 없어요"}</b><span>${ITEMS.length ? "검색어나 필터를 바꿔 보세요." : "학생회가 물품을 등록하면 여기에 표시돼요."}</span></div></div>`;
+    return;
+  }
+  $("#list").innerHTML = `<div class="grid">${vis.map((it, i) => {
+    const soldOut = it.remaining === 0, low = it.remaining > 0 && it.remaining <= 2;
+    const st = soldOut ? ["none", "모두 대여 중"] : low ? ["low", "수량 얼마 안 남음"] : ["ok", "대여 가능"];
+    const bars = Array.from({ length: it.total }, (_, s) => `<i class="${s < it.remaining ? "on" : ""}"></i>`).join("");
+    return `<article class="card" style="animation-delay:${i * 45}ms">
+      <div class="card-top">${it.category ? `<span class="cat">${esc(it.category)}</span>` : ""}<span class="status ${st[0]}"><i></i>${st[1]}</span></div>
+      <h3>${esc(it.name)}</h3>
+      ${it.note ? `<p class="note">${esc(it.note)}</p>` : ""}
+      <div class="stock">
+        <div><span class="k">남은 수량</span><p><strong>${it.remaining}</strong><span class="of">/ ${it.total}개</span></p></div>
+        <div class="bars" aria-label="총 ${it.total}개 중 ${it.lent}개 대여 중">${bars}</div>
+      </div>
+      <div class="spacer"></div>
+      <div class="card-foot">
+        <span class="days">${icon("clock", 15)}최대 ${it.days}일 대여</span>
+        <button class="go" data-borrow="${esc(it.id)}" ${soldOut ? "disabled" : ""} type="button">${soldOut ? "대여 불가" : "대여하기"}${icon("arrow", 16)}</button>
+      </div>
+    </article>`;
+  }).join("")}</div>`;
+}
+
+$("#list").addEventListener("click", (e) => { const b = e.target.closest("[data-borrow]"); if (b && !b.disabled) openBorrow(b.dataset.borrow); });
+$("#q").addEventListener("input", (e) => { QUERY = e.target.value; render(); });
+document.querySelectorAll(".chip").forEach((c) => c.addEventListener("click", () => {
+  FILTER = c.dataset.f; document.querySelectorAll(".chip").forEach((x) => x.setAttribute("aria-pressed", String(x === c))); render();
+}));
+$("#refresh").onclick = () => load(true);
+$("#go-return").onclick = () => openReturn();
+
+/* modal */
+function closeModal() { $("#modal-root").innerHTML = ""; }
+function mount(html) {
+  $("#modal-root").innerHTML = `<div class="backdrop" id="bd">${html}</div>`;
+  $("#bd").addEventListener("mousedown", (e) => { if (e.target.id === "bd") closeModal(); });
+  const x = $("#modal-root .x"); if (x) x.onclick = closeModal;
+  const c = $("#cancel"); if (c) c.onclick = closeModal;
+}
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && $("#modal-root").innerHTML) closeModal(); });
+
+const fieldsHtml = `<div class="fields">
+  <label>학번<input id="f-sid" class="mono" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="예: 202612345"></label>
+  <label>이름<input id="f-name" maxlength="20" autocomplete="off" placeholder="이름을 입력해 주세요"></label>
+</div>`;
+
+function openBorrow(id) {
+  const it = ITEMS.find((x) => x.id === id); if (!it) return;
+  mount(`<form class="panel" id="f" role="dialog" aria-modal="true" novalidate>
+    <div class="panel-head"><div><span class="k">Borrow item</span><h2>${esc(it.name)} 대여</h2></div><button class="x" type="button" aria-label="닫기">${icon("close", 18)}</button></div>
+    <p class="desc">학번과 이름을 입력하면 바로 대여 처리돼요.</p>
+    <div class="duebox"><span>반납 기한</span><p>${fmtDate(dueFrom(it.days))}까지</p></div>
+    ${fieldsHtml}
+    <label class="consent"><input type="checkbox" id="f-ok">대여 관리를 위한 학번과 이름 수집에 동의합니다. 입력 정보는 학생회만 열람할 수 있어요.</label>
+    <p class="err" id="f-err" hidden></p>
+    <div class="btn-row"><button class="btn ghost" id="cancel" type="button">취소</button><button class="btn dark" id="f-go" type="submit">대여하기</button></div>
+  </form>`);
+  $("#f-sid").focus();
+  bindSubmit(true, () => it);
+}
+
+function openReturn() {
+  const lent = ITEMS.filter((x) => x.lent > 0);
+  if (!lent.length) {
+    mount(`<div class="panel done" role="dialog" aria-modal="true"><span class="ic">${icon("info", 28)}</span><h2>반납할 물품이 없어요</h2><p>지금 대여 중인 물품이 없어요.</p><button class="btn dark" id="cancel" type="button">확인</button></div>`);
+    return;
+  }
+  mount(`<form class="panel" id="f" role="dialog" aria-modal="true" novalidate>
+    <div class="panel-head"><div><span class="k">Return item</span><h2>물품 반납</h2></div><button class="x" type="button" aria-label="닫기">${icon("close", 18)}</button></div>
+    <p class="desc">대여할 때 입력한 정보를 동일하게 적어 주세요.</p>
+    <div class="fields" style="margin-top:20px"><label>반납할 물품<select id="f-item">${lent.map((x) => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("")}</select></label></div>
+    ${fieldsHtml.replace('class="fields"', 'class="fields" style="margin-top:16px"')}
+    <p class="err" id="f-err" hidden></p>
+    <div class="btn-row"><button class="btn ghost" id="cancel" type="button">취소</button><button class="btn dark" id="f-go" type="submit">반납하기</button></div>
+  </form>`);
+  $("#f-item").focus();
+  bindSubmit(false, () => ITEMS.find((x) => x.id === $("#f-item").value));
+}
+
+function bindSubmit(borrow, getItem) {
+  $("#f").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const it = getItem(); if (!it) return;
+    const sid = $("#f-sid").value.trim(), name = $("#f-name").value.trim(), err = $("#f-err");
+    const fail = (m) => { err.textContent = m; err.hidden = false; };
+    if (!/^\d{8,10}$/.test(sid)) return fail("학번은 숫자 8~10자리로 적어 주세요.");
+    if (name.length < 2) return fail("이름을 2자 이상 적어 주세요.");
+    if (borrow && !$("#f-ok").checked) return fail("개인정보 수집에 동의해야 대여할 수 있어요.");
+    const go = $("#f-go"); go.disabled = true; go.textContent = "처리 중…";
+    try {
+      const res = borrow ? await call("borrow", it.id, sid, name, true) : await call("returnItem", it.id, sid, name);
+      showDone(borrow, it, res || {});
+      load(false);
+    } catch (ex) {
+      go.disabled = false; go.textContent = borrow ? "대여하기" : "반납하기";
+      fail(errMsg(ex));
+    }
+  });
+}
+
+function showDone(borrow, it, res) {
+  const late = !borrow && res.late;
+  mount(`<div class="panel done" role="dialog" aria-modal="true">
+    <span class="ic${late ? " late" : ""}">${icon("check", 28)}</span>
+    <h2>${borrow ? "대여 완료" : "반납 완료"}</h2>
+    <p>${borrow
+      ? `<strong>${esc(it.name)}</strong> 대여가 처리됐어요.<br>${esc(res.dueLabel || fmtDate(dueFrom(it.days)))}까지 반납해 주세요.`
+      : late ? `<strong>${esc(it.name)}</strong> 반납이 기록됐어요.<br>반납 기한이 지났어요. 다음에는 기한을 지켜 주세요.`
+             : `<strong>${esc(it.name)}</strong> 반납이 기록됐어요. 감사합니다.`}</p>
+    <button class="btn dark" id="cancel" type="button">확인</button>
+  </div>`);
+  $("#cancel").focus();
+}
+
+load(false);
+setInterval(() => { $("#updated").textContent = updatedLabel(); }, 30000);
+setInterval(() => { if (document.visibilityState === "visible" && !$("#modal-root").innerHTML) load(false); }, 60000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") load(false); });
+</script>
+</body>
+</html>
